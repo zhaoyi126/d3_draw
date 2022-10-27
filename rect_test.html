@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+<div id="container">
+    
+</div>
+
+<script src="https://d3js.org/d3.v5.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+    let w = 500;
+    let h = 400;
+    const svg = d3.select('#container')
+        .append('svg')
+        .attr('width', w)
+        .attr('height', h)
+
+        // .style("background-image", "linear-gradient(180deg, #ffffff 0,#ffffff 10%,#a06a7b 0, #a06a7b 20%, #a070b6 0, #a070b6 30%, #f65e5f 0, #f65e5f 50%, #f99049 0, #f99049 60%, #facf39 0, #facf39 83.4%, #9cd84e 0, #9cd84e 90%, #ffffff 0, #ffffff)")
+
+    const margin = {
+        top: 20,
+        left: 40,
+        bottom: 20,
+    }
+
+    const main = svg.append('g').attr('transform', `translate(0, ${margin.top})`);
+
+    let defs = svg.append('defs');
+    let lg = defs.append('linearGradient')
+        .attr('id', 'grad1')
+        .attr('x1', '0%')
+        .attr('y1', '0%')
+        .attr('x2', '0%')
+        .attr('y2', '100%')
+
+    let main_h = h - margin.top - margin.bottom;
+    let y_max = 180;
+    let m = 8;
+    let gh = main_h/m;
+
+    let colors = ['#9cd84e', '#facf39', '#f99049', '#f65e5f', '#a070b6', '#a06a7b'];
+    const gap = 50;
+    let arr = [0,1,2,3,4,6,m];
+
+    let stops = '';
+    colors.map((d, i) => {
+        let percent = arr[i]*100/m;
+        stops += `<stop offset="${percent}%" style="stop-color:${d};stop-opacity:1"></stop>`
+    })
+    stops = `${stops}<stop offset="100%" style="stop-color:${colors[5]};stop-opacity:1"></stop>`
+
+    lg.html(stops);
+
+    // colors.map((d, i) => {
+    //     main.append('rect')
+    //         .attr('width', w*0.3)
+    //         .attr('height', (arr[i+1]-arr[i])*gh)
+    //         .style('fill', d)
+    //         .style('fill-opacity', 0.9)
+    //         .style('stroke', 'none')
+    //         .attr('transform', `translate(${margin.left}, ${arr[i]*gh})`);
+    // });
+
+    // main.append('rect')
+    //     .attr('width', w*0.3)
+    //     .attr('height', gh*m)
+    //     .style('fill', 'url(#grad1)')
+    //     .attr('transform', `translate(${w*0.4}, 0)`);
+
+    let y = d3.scaleLinear().domain([0, y_max]).range([main_h, 0]);
+    let y2 = y.copy().range([0, main_h]);
+    let axis = d3.axisLeft().scale(y).tickSize(5);
+    main.append('g')
+        .call(axis)
+        .attr('transform', `translate(${margin.left*0.7}, 0)`);
+
+    colors.map((d, i) => {
+        let h2 = y2((arr[i+1]-arr[i])*gap);
+        let yy = y(arr[i]*gap)-h2;
+
+        // 
+        if(yy < 0) {
+            h2 = y(arr[i]*gap);
+            yy = 0;
+
+            if(yy+h2 < 0) return false;
+        }
+
+        main.append('rect')
+            .attr('width', w*0.3)
+            .attr('height', h2)
+            .style('fill', d)
+            .style('fill-opacity', 0.9)
+            .style('stroke', 'none')
+            .attr('transform', `translate(${margin.left}, ${yy})`);
+    });
+
+</script>
+    
+</body>
+</html>
