@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>lineRadial</title>
+</head>
+<body>
+<div id="container"></div>
+
+<script src="https://d3js.org/d3.v7.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+    const w = 500;
+    const h = 400;
+    const N = 12;
+    const OUTERRADIUS = Math.min(w, h, 500) *0.4;
+    const INNERRADIUS = OUTERRADIUS * 0.9;
+
+    const svg = d3.select('#container')
+        .append('svg')
+        .attr('width', w)
+        .attr('height', h)
+    
+    const margin = {
+        top: 20,
+        left: 40,
+        bottom: 20,
+    }
+    
+    const main = svg.append('g').attr('transform', `translate(${margin.left}, ${margin.top})`);
+    
+    // lineRadial generator
+    const lineRadialGenerator = d3.lineRadial(); 
+    const data = [ 
+        [0, 10], 
+        [3.14 * .5, 35], 
+        [3.14 * .75, 55], 
+        [3.14, 60], 
+        [3.14 * 1.25, 65], 
+        [3.14 * 1.5, 70], 
+        [3.14 * 1.75, 75], 
+        [3.14 * 2, 80], 
+        [3.14 * 2.25, 85], 
+        [3.14 * 2.5, 90], 
+        [3.14 * 2.75, 95], 
+        [3.14 * 3, 100], 
+        [3.14 * 3.25, 105], 
+        [3.14 * 3.5, 110]];
+    
+    // lineRadial generator 2
+    const data2 = d3.range(N).map(d => {
+        return {m:d+1, v:25+Math.random()}
+    });
+
+    const angleScale = d3.scaleLinear().domain([1,N]).range([0, Math.PI*2]);
+    const distScale = d3.scaleLinear().domain(d3.extent(data2.map(d => d.v))).range([INNERRADIUS, OUTERRADIUS]);
+    const lineRadialGenerator2 = d3.lineRadial().angle(d => angleScale(d.m)).radius(d => distScale(d.v));
+
+    const line_radial_g = main.append('g')
+        .attr('transform', `translate(${w/2}, ${h/2})`)
+    
+    const path = line_radial_g.append("path") 
+        // .attr("d", lineRadialGenerator(data))
+        .attr("d", lineRadialGenerator2(data2))
+        .attr("fill", "none") 
+        .attr("stroke", "green")
+        .attr('stroke-width', 1)
+    
+    const totalLength = path.node().getTotalLength();
+    const trans = d3.transition().duration(4000).ease(d3.easeCubicIn);
+    
+    path
+      .attr("stroke-dasharray", totalLength + " " + totalLength)
+      .attr("stroke-dashoffset", totalLength)
+      .transition(trans)
+      .attr("stroke-dashoffset", 0)
+      .attr('stroke-width', 2)
+      .attr('stroke', 'red');
+    
+</script>
+</body>
+</html>
