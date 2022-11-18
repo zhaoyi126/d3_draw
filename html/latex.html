@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>latex editor</title>
+</head>
+<body>
+<style type="text/css">
+    .editor {
+        width: 98%;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        padding: 0.375rem 0.5rem;
+        font-size: .9rem;
+        color: #555;
+        background-color: #fff;
+        background-image: none;
+        height: initial;
+        min-height: 13.75rem;
+        resize: vertical;
+    }
+    ul {list-style-type: none;}
+    .ll li{margin-bottom: 20px;}
+    #content{
+        margin-bottom: -10px;
+        margin-top: 20px;
+        padding: 6px 10px;
+        height: 180px;
+        /*overflow-y: scroll;*/
+        background: #eee;
+        border-radius: 5px;
+    }
+    .ll button {
+        width: 56px;
+        height: 30px;
+        vertical-align: top;
+        background: #28a745;
+        color: #fff;
+        border: #28a745;
+    }
+    .ll button.clear {
+        background: #d9534f;
+        border: #d9534f;
+    }
+</style>
+
+
+<div style="width: 50%;margin: 0 auto;padding-top: 20px;">
+    <h1>latex editor</h1>
+    <ul class="ll">
+        <li>
+            <div>
+                <textarea class="editor"></textarea>
+            </div>
+        </li>
+        <li>
+            <button class="equ">do</button>
+            <button class="clear">clear</button>
+        </li>
+        <li>
+            <div id="content">
+            </div>
+        </li>
+
+    </ul>
+</div>
+
+<script src="/public/libs/jquery.min.js"></script>
+<script type="text/javascript" src="/public/libs/MathJax-master/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/javascript">
+
+
+$('.editor').on('input', () => {
+    equ();
+})
+
+$('.clear').on('click', () => {
+    $('.editor').val('');
+    $('#content').html('');
+})
+
+$('.equ').on('click', () => {
+    equ();
+})
+
+function equ() {
+    let txt = $('.editor').val();
+    txt = txt.replaceAll('\n', '\\\\');
+    $('#content').html(`$${txt}$`);
+
+    var mathId = document.getElementById("content");
+
+    MathJax.Hub.Config({
+       "HTML-CSS": {
+            linebreaks: { automatic: true, width: "94%container" },
+            imageFont: null
+        },
+        showProcessingMessages: true,
+        messageStyle:"block" ,
+        tex2jax: {
+            inlineMath:  [ ["$", "$"] ],
+            displayMath: [ ["$$","$$"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre','code','a'],
+            ignoreClass:"class1"
+        }
+    });
+    MathJax.Hub.Queue(["Typeset",MathJax.Hub,mathId]);
+}
+</script>
+
+</body>
+</html>
