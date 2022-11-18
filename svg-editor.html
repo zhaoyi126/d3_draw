@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SVG编辑器</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="">
+    <meta name="description" content="SVG编辑器，修改字体，颜色等">
+
+    <link rel="stylesheet" type="text/css" href="https://sg-info.cn/public/libs/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="https://sg-info.cn/public/libs/bootstrap/css/bootstrap.min.css">
+
+    <link rel="stylesheet" type="text/css" href="https://sg-info.cn/public/libs/bootstrap/css/bootstrap-colorpicker.css">
+    <link rel="stylesheet" href="https://sg-info.cn/public/libs/jquery-ui/css/jquery-ui.css">
+
+<!-- 
+    <link rel="stylesheet" href="https://sg-info.cn/public/libs/nprogress/nprogress.css">
+    <script src="https://sg-info.cn/public/libs/nprogress/nprogress.js"></script>
+ -->
+    <style type="text/css">
+        /* 页面变灰 */
+/*        html {
+            filter: progid:DXImageTransform.Microsoft.BasicImage(grayscale=1);
+            -webkit-filter: grayscale(100%);
+        }*/
+        /* 页面变灰 */
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        *, :after, :before {
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+        /*body { cursor: url(./images/cursor.ico),auto; }*/
+
+        .vk-tooltip {
+          position:absolute;font-size: 13px;font-weight: 500;padding:5px;text-align:left;border: 2px solid #ccc;-webkit-border-radius:10px;-moz-border-radius:10px;border-radius:5px;-webkit-box-shadow:4px 4px 10px rgba(0,0,0,0.4);-moz-box-shadow:4px 4px 10px rgba(0,0,0,0.4);box-shadow:4px 4px 10px rgba(0,0,0,0.4);pointer-events:none;opacity: 0.0; font-style: normal;font-family: Arial;
+        }
+
+        .wrap {margin-left: 2%;margin-top: 2%;}
+        #vk-toolbox {position: relative;width: 530px;height:35px;display: block;border: 1px solid #000;cursor: move;z-index: 1}
+        #vk-toolbox ul {width: 100%;}
+        #vk-toolbox .vk-tools > li {list-style: none;float: left;margin-top: 5px;margin-right: 5px;}
+        #vk-toolbox .vk-tools .button {height: 25px;width: 25px;text-align: center;font-size: 16px;}
+        #vk-toolbox .vk-tools .active > a {color: #6A5ACD;}
+        #vk-toolbox .vk-tools .pan {color:#ccc;background-color: #1122FF;}
+        /*#vk-toolbox .vk-tools .pan {color:#fff;background-color: #6A5ACD;}*/
+
+        #vk-toolbox .vk-tools > li > a {cursor: pointer;display: inline-block;}
+        .jumbotron {
+            padding-top: 0px; padding-bottom: 0px; position: relative; background-color: rgb(51, 51, 51); width: 160px; height: 26px; border-radius: 3px; box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 3px; display: none;}
+        .jumbotron p {font-size: 15px;}
+        .stroke-width-block {
+          position: absolute; background: #fff; min-width: 100px; box-shadow: 0 0 15px 0 rgba(154,161,171,.2); border: 1px solid #d9e3e9; border-radius: 2px; padding: 5px; width: 100px; z-index: 9999; display: none;
+        }
+        .symbol-size-block {
+          position: absolute; background: #fff; box-shadow: 0 0 15px 0 rgba(154,161,171,.2); border: 1px solid #d9e3e9; border-radius: 2px; padding: 5px; width: 60px; height: 220px; overflow-y: scroll; z-index: 9999; display: none; }
+
+        .stroke-width-block li {margin-top: 3px; height: 22px;cursor: pointer;text-align: center;transition: all .3s ease;list-style: none;}
+        .stroke-width-block li div {margin: 0 auto;top:50%;position: relative;}
+        .stroke-width-block li:hover {background:#A9A9A9;}
+        .symbol-size-block li {margin-top: 3px; height: 22px;cursor: pointer;text-align: center;transition: all .3s ease;list-style: none;}
+        .symbol-size-block li div {margin: 0 auto;position: relative;}
+        .symbol-size-block li:hover {background:#A9A9A9;}
+        .info {width: 400px;}
+        .info label span {font-weight: 400;width: 60px;display: inline-block;}
+    </style>
+
+    <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?14f00e1a5b675c3b8b4b40f1593414f5";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
+</head>
+<body>
+
+  <div class="wrap">
+    <div id="vk-toolbox">
+      <ul class="vk-tools">
+        <li class="button active tool-reset"><a><i class="fa fa-refresh" title="重置"></i></a></li>
+        <li class="button active tool-bold"><a><i class="fa fa-bold" title="Bold"></i></a></li>
+        <li class="button active tool-italic"><a><i class="fa fa-italic" title="Italic"></i></a></li>
+        <li>
+          <select class="font-family" style="width: 100px; height: 21px; font-size: 14px;">
+            <option value="">无</option>
+            <option value="Arial" style="font-family: Arial;">Arial</option>
+            <option value="Comic Sans MS" style="font-family: &quot;Comic Sans MS&quot;;">Comic Sans MS</option>
+            <option value="Courier New" style="font-family: &quot;Courier New&quot;;">Courier New</option>
+            <option value="Garamond" style="font-family: Garamond;">Garamond</option>
+            <option value="Georgia" style="font-family: Georgia;">Georgia</option>
+            <option value="Impact" style="font-family: Impact;">Impact</option>
+            <option value="Lucida Console" style="font-family: &quot;Lucida Console&quot;;">Lucida Console</option>
+            <option value="Tahoma" style="font-family: Tahoma;">Tahoma</option>
+            <option value="Times New Roman" style="font-family: &quot;Times New Roman&quot;;">Times New Roman</option>
+            <option value="Verdana" style="font-family: Verdana;">Verdana</option>
+            <option value="FangSong" style="font-family: FangSong;">仿宋</option>
+            <option value="KaiTi" style="font-family: KaiTi;">楷体</option>
+            <option value="SimHei" style="font-family: SimHei;">黑体</option>
+            <option value="SimSun" style="font-family: SimSun;">宋体</option>
+            <option value="STFangsong" style="font-family: STFangsong;">华文仿宋</option>
+            <option value="STKaiti" style="font-family: STKaiti;">华文楷体</option>
+            <option value="STSong" style="font-family: STSong;">华文宋体</option>
+          </select>
+        </li>
+        <li>
+          <select class="font-size" style="width: 40px; height: 21px; font-size: 14px;vertical-align: center;" title="字体大小">
+          </select>
+        </li>
+        <li class="button active" id="tool-fill">
+          <a>
+            <i class="fa fa-paint-brush" title="填充颜色"></i>
+          </a>
+          <div class="jumbotron fill-colorpicker dropdown">
+              <input id="fill-color" type="text" value="" style="width: 100%;height: 100%" readonly>
+          </div>
+
+        </li>
+        <li class="button active" id="tool-stroke">
+          <a><i class="fa fa-pencil fa-fw" title="线条颜色"></i></a>
+          <div class="jumbotron stroke-colorpicker dropdown">
+            <input id="stroke-color" type="text" value="" style="width: 100%;height: 100%" readonly>
+          </div>
+        </li>
+        <li>
+          <select class="symbol-type" title="形状">
+            <option value="">无</option>
+            <option value="d3.symbolCircle">圆形</option>
+            <option value="d3.symbolCross">十字架</option>
+            <option value="d3.symbolDiamond">菱形</option>
+            <option value="d3.symbolSquare">正方形</option>
+            <option value="d3.symbolStar">五角星</option>
+            <option value="d3.symbolTriangle">三角形</option>
+            <option value="d3.symbolWye">Y形</option>
+          </select>
+        </li>
+        <li class="button active" id="tool-stroke-width">
+          <a><i class="fa fa-text-width fa-fw" title="线宽"></i></a>
+          <div class="stroke-width-block dropdown">
+            <ul>
+              <li>
+                <div data-width="0" style="height: 0px; width: 74px; background: black;"></div>
+              </li>
+              <li>
+                <div data-width="1" style="height: 1px; width: 74px; background: black;"></div>
+              </li>
+              <li>
+                <div data-width="2" style="height: 2px; width: 74px; background: black;"></div>
+              </li>
+              <li>
+                <div data-width="3" style="height: 3px; width: 74px; background: black;"></div>
+              </li>
+              <li>
+                <div data-width="4" style="height: 4px; width: 74px; background: black;"></div>
+              </li>
+              <li>
+                <div data-width="5" style="height: 5px; width: 74px; background: black;"></div>
+              </li>
+            </ul>
+          </div>
+        </li>
+
+        <li class="button active" id="tool-symbol-size">
+          <a><i class="fa fa-dot-circle-o fa-fw" title="点大小"></i></a>
+          <div class="symbol-size-block dropdown">
+            <ul>
+              <li><div data-size="20" style="font-size: 14px; color: black;">20</div></li>
+              <li><div data-size="40" style="font-size: 14px; color: black;">40</div></li>
+              <li><div data-size="60" style="font-size: 14px; color: black;">60</div></li>
+              <li><div data-size="80" style="font-size: 14px; color: black;">80</div></li>
+              <li><div data-size="100" style="font-size: 14px; color: black;">100</div></li>
+              <li><div data-size="120" style="font-size: 14px; color: black;">120</div></li>
+              <li><div data-size="140" style="font-size: 14px; color: black;">140</div></li>
+              <li><div data-size="160" style="font-size: 14px; color: black;">160</div></li>
+              <li><div data-size="180" style="font-size: 14px; color: black;">180</div></li>
+              <li><div data-size="200" style="font-size: 14px; color: black;">200</div></li>
+              <li><div data-size="220" style="font-size: 14px; color: black;">220</div></li>
+              <li><div data-size="240" style="font-size: 14px; color: black;">240</div></li>
+              <li><div data-size="260" style="font-size: 14px; color: black;">260</div></li>
+              <li><div data-size="280" style="font-size: 14px; color: black;">280</div></li>
+              <li><div data-size="300" style="font-size: 14px; color: black;">300</div></li>
+              <li><div data-size="320" style="font-size: 14px; color: black;">320</div></li>
+              <li><div data-size="340" style="font-size: 14px; color: black;">340</div></li>
+              <li><div data-size="360" style="font-size: 14px; color: black;">360</div></li>
+              <li><div data-size="380" style="font-size: 14px; color: black;">380</div></li>
+              <li><div data-size="400" style="font-size: 14px; color: black;">400</div></li>
+              <li><div data-size="420" style="font-size: 14px; color: black;">420</div></li>
+              <li><div data-size="440" style="font-size: 14px; color: black;">440</div></li>
+              <li><div data-size="460" style="font-size: 14px; color: black;">460</div></li>
+              <li><div data-size="480" style="font-size: 14px; color: black;">480</div></li>
+              <li><div data-size="500" style="font-size: 14px; color: black;">500</div></li>
+              <li><div data-size="520" style="font-size: 14px; color: black;">520</div></li>
+              <li><div data-size="540" style="font-size: 14px; color: black;">540</div></li>
+              <li><div data-size="560" style="font-size: 14px; color: black;">560</div></li>
+              <li><div data-size="580" style="font-size: 14px; color: black;">580</div></li>
+              <li><div data-size="600" style="font-size: 14px; color: black;">600</div></li>
+              <li><div data-size="620" style="font-size: 14px; color: black;">620</div></li>
+              <li><div data-size="640" style="font-size: 14px; color: black;">640</div></li>
+            </ul>
+          </div>
+        </li>
+        <li class="button active tool-grid"><a><i class="fa fa-table fa-fw" title="网格线"></i></a></li>
+        <li class="button active tool-tags"><a><i class="fa fa-tags fa-fw" title="标签"></i></a></li>
+      </ul>
+    </div>
+
+    <div class="info">
+      <label>范围: <span class="selected-scope">-</span> 类型: <span class="selected-type">-</span> </label>
+    </div>
+    <div id="container"></div>
+
+    <div id="dialog-edit" title="修改属性" style="display: none;">
+      <form role="form">
+        <div class="form-group">
+          <label for="name">名称</label>
+          <input type="text" class="form-control node-name" placeholder="请输入名称">
+        </div>
+      </form>
+    </div>
+
+  </div>
+
+<script type="text/javascript" src="https://sg-info.cn/public/js/jquery.js"></script>
+<script type="text/javascript" src="https://sg-info.cn/public/libs/bootstrap/js/bootstrap-colorpicker.js"></script>
+<script src="https://sg-info.cn/public/libs/jquery-ui/js/jquery-ui.min.js"></script> -->
+<script type="text/javascript" src="https://sg-info.cn/public/libs/d3/dist/d3.min.js"></script>
+<script type="text/javascript" src="https://sg-info.cn/public/libs/d3kit/dist/d3kit.js"></script>
+<script src="https://sg-info.cn/public/dist/build.js"></script>
+<script src="https://sg-info.cn/public/dist/build2.js"></script>
+
+
+<!-- <script type="text/javascript">
+    NProgress.start();
+    NProgress.done();
+</script>
+ -->
+<!-- cat -->
+<div id="page_end_html">
+  <script src="https://eqcn.ajz.miesnfu.com/wp-content/plugins/wp-3d-pony/live2dw/lib/L2Dwidget.min.js"></script>
+  <script>
+      L2Dwidget.init({
+          "model": {
+              jsonPath: "https://unpkg.com/live2d-widget-model-hijiki/assets/hijiki.model.json",<!--这里改模型，前面后面都要改-->
+              "scale": 1
+          },
+          "display": {
+              "position": "left",<!--设置看板娘的上下左右位置-->
+              "width": 100,
+              "height": 200,
+              "hOffset": 0,
+              "vOffset": 0
+          },
+          "mobile": {
+              "show": true,
+              "scale": 0.5
+          },
+          "react": {
+              "opacityDefault": 0.7,<!--设置透明度-->
+              "opacityOnHover": 0.2
+          }
+      });
+
+      window.onload = function(){
+           $("#live2dcanvas").attr("style","position: fixed; opacity: 0.7; right: 70px; bottom: 0px; z-index: 1; pointer-events: none;")
+      }
+  </script>
+</div>
+<!-- end cat -->
+
+<!--鼠标特效-->
+<!-- <script src="https://sg-info.cn/public/libs/mouse-click.js"></script>
+<canvas width="1777" height="841" style="position: fixed; left: 0px; top: 0px; z-index: 2147483647; pointer-events: none;"></canvas> -->
+<!--鼠标特效 end-->
+
+</body>
+</html>
