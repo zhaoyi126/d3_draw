@@ -1,45 +1,28 @@
 <html>
 <meta charset="utf-8">
 <head>
-
 <title>latex</title>
-
 </head>
-
 <body>
-
+<h1>latex</h1>
 <p>(1) \vec{\theta} $\vec{\theta}$</p>
 <p>(2) \overrightarrow{\theta} $\overrightarrow{\theta}$</p>
 <p>(3) \mathop{\theta} \limits ^{\rightarrow} $\mathop{\theta} \limits ^{\rightarrow}$</p>
-
-
-
 例子：把字母A和B一下一上摞起来：$\mathop{}_{A}^{B}$     (命令： \ mathop{}_{A}^{B})
-
 例子：把三个字母摞起来： $\mathop{B}_{A}^{C}$     (命令： \ mathop{B}_{A}^{C})
-
 例子：上例的中间字母有点大，调整一下咯：$\mathop{\small{B}}_{A}^{C}$   ( mathop{ small{B}}_{A}^{C})
-
 注：字母可以换成其它符号。
-
 $\int_a^b f(x)dx = F(b)-F(a) = F(x)|_a^b$
-
 <div>
-
  由导数的定义可知，当函数$f(x)$在点 $x_0$ 处可导时，在点 $x_0$ 的邻域 $U(x_0)$ 内恒有
-
 $f(x)=f(x_0)+f′(x_0)(x−x_0)+o(x-x_0)$
 因为 $o(x-x_0)$是一个无穷小量，故有 $f(x) \approx f(x_0)+f′(x_0)(x−x_0)$
-
 $f(x)=f(x_0)+\frac{f′(x_0)}{1!}(x−x_0)+\frac{f′′(x_0)}{2!}(x−x_0)^2+...+\frac{f^{(n)}(x_0)}{n!}(x−x_0)^n+R_n(x)$
 <br/>
-
 $sinx = x - \frac{x^3}{3!} + o(x^3)$
 $cosx = 1 - \frac{x^2}{2!} + o(x^2)$
 $tanx = x + \frac{x^3}{3!} + \frac{x^5}{5!} +o(x^3)$
-
 双缝实验波长推导
-
 ${r_1}^2 = l^2 + (x-\frac{d}{2})^2$①
 ${r_2}^2 = l^2 + (x+\frac{d}{2})^2$②
 ②-① 得：
@@ -50,34 +33,23 @@ $l \gg x$
 $r_2 + r_1 \approx 2l$
 所以$(r_2 - r_1) = \frac{d}{l}x$
 $\delta = \frac{d}{l}x$
-
 双曲线
 焦点 $c^2 = a^2 + b^2$
 $a = \frac{n \lambda}{2}$
 $b^2 = (\frac{d}{2})^2 - (\frac{n \lambda}{2})^2$
-
 $\frac{x^2}{(\frac{n \lambda}{2})^2} - \frac{x^2}{(\frac{d}{2})^2 - (\frac{n \lambda}{2})^2} = 1$
-
 将y=L 带入上式，
 。可得 $x = n \lambda \sqrt{4+\frac{L^2}{d^2-n^2 {\lambda}^2}}$
-
 $d \gg \lambda $
 $L \gg d$
-
 $x=n \lambda \sqrt{\frac{L^2}{d^2}} = \frac{n \lambda L}{d}$
-
-
-
 简谐运动是最基本也最简单的机械振动。当某物体进行简谐运动时，物体所受的力跟位移成正比，并且总是指向平衡位置。它是一种由自身系统性质决定的周期性运动（如单摆运动和弹簧振子运动）。实际上简谐振动就是正弦振动。
-
 由$\frac{k}{m} = {\omega}^2$
 有$\omega = \frac{2\pi}{T}$
 得$T = 2\pi \sqrt{\frac{m}{k}}$
-
     <div id="article-content" style="margin-left: 40px;width: 600px;">
     向心力推导过程
     A,B点速度分别为$V_a, V_b$, 经过时间$\Delta t$,夹角为$\alpha$. 求加速度a
-
     <p>$F=ma=\frac{\Delta V}{\Delta t} = \frac{V_b - V_a}{\Delta t}$</p>
     
     <p>$|V_a| = |V_b|$</p>
@@ -85,44 +57,27 @@ $x=n \lambda \sqrt{\frac{L^2}{d^2}} = \frac{n \lambda L}{d}$
     <p>$|\Delta V| = 2sin\frac{\alpha}{2}|V_a|$</p>
     
     <p>$\Delta t = \frac{r_{\alpha}}{V_a}$</p>
-
     <p>$F = m\frac{2sin\frac{\alpha}{2}|V_a|}{\frac{r_{\alpha}}{V_a}} = m \frac{|V_a|^2 sin \frac{\alpha}{2}}{\frac{r_{\alpha}}{2}}$</p>
-
     <p>$ \lim\limits_{\alpha \to 0}  \frac{sin \frac{\alpha}{2}} {\frac{\alpha}{2}} = 1 $</p>
     当时间间隔$\Delta t \rightarrow 0 $时，平均加速度的极限称为瞬时加速度，简称加速度，记为a：
     $ \lim\limits_{\Delta t \to 0}  \frac{\Delta v}{\Delta t} = \frac{dv}{dt} $
-
     <p>$F=m\frac{{V_a}^2}{r}$</p>
-
-
     <p>$\frac {\lim}{x \to 0}$</p>
-     
-     
      <p>$a=b \stackrel{F}{\longleftrightarrow}c=d$</p>
-    
     $\vec {F} = k \frac{q_1 q_2}{r^2} \vec{e_r}$
 　　$ W = \sum Fr×dr $
-
 　　$ F=\frac{GMm}{R^2} $
-
 　　令R为自变量x，即有
-
 　　$ W= \sum Fr×dr=\begin{matrix} \int_{R}^{\infty} \frac{GMm}{x^2} dx \end{matrix} $
-
 　　解得 $W= -\frac{GMm}{x}\bigg|_{R}^{\infty} $
-
     $W = \frac{GMm}{R}$
-
-
 <p>${v_{\frac{x}{2}}}^2 - {v_0}^2 = 2a\frac{x}{2}$</p>
 <p>${v_x}^2 - {v_{\frac{x}{2}}}^2 = 2a\frac{x}{2}$</p>
 <p>${v_{\frac{x}{2}}}^2 - {v_0}^2 = {v_x}^2 - {v_{\frac{x}{2}}}^2$</p>
 <p>$2{v_{\frac{x}{2}}}^2 = {v_0}^2 + {v_x}^2$</p>
 <p>${v_{\frac{x}{2}}}^2 = \frac{{v_0}^2 + {v_x}^2}{2}$</p>
 <p>$v_{\frac{x}{2}} = \sqrt{\frac{{v_0}^2 + {v_x}^2}{2}}$</p>
-
 <p style="margin-bottom: 60px;"></p>
-
 <p>
     $\Phi_内 = \int_0 ^{r_0} \varphi(x) dx $ ①
 </p>
@@ -132,7 +87,6 @@ $x=n \lambda \sqrt{\frac{L^2}{d^2}} = \frac{n \lambda L}{d}$
 <p>
     $\Phi_外 = \int_{r_0} ^{r_x} \varphi(x) dx $ ③，其中($r_x > r_0$)
 </p>
-
 <p>
 $^{238} _{92}U \rightarrow ^{234} _{90}Th + ^{4} _{2}He$
 <br/>
@@ -151,14 +105,11 @@ $^{b} _{n}A$
 首先原子发光是由于原子外层电子吸收能量，跃迁到激发态，当电子跃迁回基态时，会放出能量，这种能量以光的形式释放出来。
 $ \Delta E=hv=hc/ \lambda $，$\Delta E$表示原子激发态和基态的能量差，
 h是普朗克常数，c为光速，λ是由于跃迁向外辐射的波长为$\lambda$的光。
-
 $x^2 + y^2 = 100^2$
 </p>
-
 <p>
 $(x-m)^2 + (y+120)^2 = 70^2$
 </p>
-
 <p>
 \begin{equation}
 \left\{
@@ -170,8 +121,6 @@ $(x-m)^2 + (y+120)^2 = 70^2$
 \right.
 \end{equation}
 </p>
-
-
 <p>
 \begin{equation}
 \left\{
@@ -182,7 +131,6 @@ $(x-m)^2 + (y+120)^2 = 70^2$
 \right.
 \end{equation}
 </p>
-
 <p style="font-size: 24px;">
     $\int x dx = \frac{1}{2}x^2 + C $
 </p>
@@ -192,7 +140,6 @@ $(x-m)^2 + (y+120)^2 = 70^2$
 <p style="font-size: 24px;">
     $ \int f(t)g(x) dt $
 </p>
-
 <p>
     但是  g(x)其实是关于t变化的，这样的就必须要把g(x)表示成关于t的函数才可以积分。
 例如<span style="font-size: 24px;"> $ \int f(t)g(h(t)) dt $  </span>
@@ -203,20 +150,15 @@ $(x-m)^2 + (y+120)^2 = 70^2$
     $ \int f(t)g(x) dt = g(x) \int f(t) dt = k \int f(t) dt  $
 </p>
 <p>这就是经常被提到的必须满足<b>线性关系</b>。</p>
-
-
 <p>
     即$ a = -\frac{k}{m}x $
 </p>
-
 <p>
     加速度a可以写成 $ a = \frac{d^2x}{dt^2} $
 </p>
-
 <p>
     $ 将 \frac{k}{m}写成 \omega^2 $
 </p>
-
 <p>
     $ 得到\frac{d^2x}{dt^2} = -\omega^2x $
 </p>
@@ -224,46 +166,35 @@ $(x-m)^2 + (y+120)^2 = 70^2$
 对此微分方程式，利用高等数学方法，可求得其解为
 $ x = Asin(\omega t + \phi ) $
 </p>
-
-
 <p>
     重力G沿着圆弧切线方向的分力 $ G_1 = mgsin\theta $提供摆球给作为回复力F
     当偏角$\theta$很小(如$ \theta < 10^{\circ} $)时， $sin\theta \approx \theta \approx \frac{x}{l} $，所以单摆受到的回复力 $ F = -\frac{mg}{l}x $，其中l为摆长，x为摆球偏离平衡位置的位移，负号表示回复力F与位移x的方向相反，由于m、g、l为常数，所以$\frac{mg}{l}$表示为常数k，上式写成$F = -kx $。因此，在偏角$\theta$很小时，单摆受到的回复力与位移成正比，方向与位移方向相反，单摆作的是简谐运动。将$k=\frac{mg}{l}$带入到简谐运动物体的周期公式，可得单摆的周期公式为$T=2\pi \sqrt{\frac{l}{g}}$
 </p>
-
 <p>
 这说明小球的位移x是按正弦曲线的规律随时间作周期性变化
 ，其变化的角速度为 $ \omega=\sqrt{\frac{k}{m}} = \frac{2\pi}{T} $
 </p>
 <p>周期为 $ T = 2\pi \sqrt{\frac{m}{k}}$</p>
-
-
 <p>
 磁场中通过导体棒的电荷量公式
 </p>
 <p>
     $ U = \frac{\Delta \phi}{t} $
 </p>
-
 <p>
    $ I = \frac{U}{R} = \frac{\Delta \phi}{tR}$
 </p>
-
 <p>
     $ Q = It =  \frac{\Delta \phi}{R} $
 </p>
 <p>
 $ sin(x+\frac{\pi}{4}) - sin(x) = sin(\frac{\pi}{4}) $
 </p>
-
     </div>
 </div>
-
-<script type="text/javascript" src="./libs/MathJax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/javascript" src="/public//libs/MathJax-master/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 <script>
-
 var mathId = document.getElementById("article-content");
-
 MathJax.Hub.Config({
    "HTML-CSS": {
         linebreaks: { automatic: true, width: "94%container" },
@@ -279,9 +210,6 @@ MathJax.Hub.Config({
     }
 });
 MathJax.Hub.Queue(["Typeset",MathJax.Hub,mathId]);
-
 </script>
-
 </body>
-
 </html>
