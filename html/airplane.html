@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>airplane</title>
+    <script src="/public/libs/d3.v7.min.js" type="text/javascript"></script>
+    <script src="/public/libs/jquery-2.1.1.min.js" type="text/javascript"></script>
+</head>
+<body>
+<style type="text/css">
+    /*body {background: #999;}*/
+    path {
+        stroke:red; fill:none; stroke-width:2;
+    }
+    line {stroke-width: 1;stroke: #000;}
+</style>
+
+<div style="width: 50%;margin: 0 auto;padding-top: 20px;">
+    <h1>airplane</h1>
+    <div id="container"></div>
+</div>
+
+<script type="text/javascript">
+    const w = 500;
+    const h = 500;
+
+    const svg = d3.select('div#container')
+        .append('svg')
+        .attr('width', w)
+        .attr('height', h)
+
+    const margin = {
+        top: 20,
+        left: 20,
+        bottom: 20,
+        right: 20,
+    }
+
+    const main = svg.append('g')
+        .attr('class', 'main')
+        .attr('transform', `translate(${margin.left}, ${margin.top})`);
+
+    const cos = Math.cos;
+    const sin = Math.sin;
+    const sqrt = Math.sqrt;
+    const pi = Math.PI;
+    const N = 8;
+    const sh = (h-margin.top-margin.bottom)/N;
+    const sw = (w-margin.left-margin.right)/N;
+
+    d3.range(N+1).map(d => {
+
+        main.append('line')
+            .attr('x1', 0)
+            .attr('y1', sh*d)
+            .attr('x2', w-margin.left-margin.right)
+            .attr('y2', sh*d);
+
+        main.append('line')
+            .attr('y1', 0)
+            .attr('x1', sw*d)
+            .attr('y2', h-margin.top-margin.bottom)
+            .attr('x2', sw*d);
+    })
+
+    const rw = sw;
+    const rh = sh*5;
+    const gap = 10;
+    const airplane_color = '#342763';
+    // first
+    main.append('rect')
+        .attr('width', sw-gap*2)
+        .attr('height', sh*5-gap*2)
+        .attr('x', gap+sw)
+        .attr('y', gap)
+        .attr('rx', 25)
+        .attr('ry', 25)
+        .style('fill', airplane_color)
+        .style('fill-opacity', 0.8)
+
+    main.append('rect')
+        .attr('width', sw*4-gap*2)
+        .attr('height', sh-gap*2)
+        .attr('x', gap)
+        .attr('y', gap+sh*2)
+        .attr('rx', 25)
+        .attr('ry', 25)
+        .style('fill', airplane_color)
+        .style('fill-opacity', 0.8)
+
+    main.append('rect')
+        .attr('width', sw-gap*2)
+        .attr('height', sh*3-gap*2)
+        .attr('x', gap+sw*3)
+        .attr('y', gap+sh)
+        .attr('rx', 25)
+        .attr('ry', 25)
+        .style('fill', airplane_color)
+        .style('fill-opacity', 0.8)
+
+
+    // second
+    main.append('rect')
+        .attr('width', sw-gap*2)
+        .attr('height', sh*5-gap*2)
+        .attr('x', gap+sw*4)
+        .attr('y', gap+sh*3)
+        .attr('rx', 25)
+        .attr('ry', 25)
+        .style('fill', airplane_color)
+        .style('fill-opacity', 0.8)
+
+    main.append('rect')
+        .attr('width', sw*4-gap*2)
+        .attr('height', sh-gap*2)
+        .attr('x', gap+sw*2)
+        .attr('y', gap+sh*5)
+        .attr('rx', 25)
+        .attr('ry', 25)
+        .style('fill', airplane_color)
+        .style('fill-opacity', 0.8)
+
+    main.append('rect')
+        .attr('width', sw-gap*2)
+        .attr('height', sh*3-gap*2)
+        .attr('x', gap+sw*2)
+        .attr('y', gap+sh*4)
+        .attr('rx', 25)
+        .attr('ry', 25)
+        .style('fill', airplane_color)
+        .style('fill-opacity', 0.8)
+
+function generatePath(r) {
+    const offset = pi/2 - pi/5;
+    const ratio = sin(pi/10)/sin(pi/2+pi/5);
+
+    let points = [];
+    let five = 5;
+    d3.range(five).map((d, i) => {
+        points.push({x: r*cos(2*pi*i/five+offset), y: r*sin(2*pi*i/five+offset)});
+        points.push({x: ratio*r*cos(2*pi*(i+0.5)/five+offset), y: ratio*r*sin(2*pi*(i+0.5)/five+offset)});
+    })
+
+
+    var path='';
+    points.map((d, i) => {
+        let str = i==0 ? 'M' : 'L';
+        path += str + `${d.x} ${d.y}`;
+    });
+
+    return path;
+}
+
+</script>
+</body>
+</html>
