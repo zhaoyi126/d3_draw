@@ -10,18 +10,41 @@
 <style type="text/css">
     /*body {background: #999;}*/
     path {
-        stroke:red; fill:green; stroke-width:2;
+        stroke:#000;stroke-width:1;
     }
+    text {font-size: 12px;}
+    .tooltip{
+        position: absolute;
+        padding: 5px;
+        color: white;
+        font-size: 12px;
+        font-weight: normal;
+        font-style: normal;
+        font-family: Arial;
+        border-width: 0px;
+        border-color: black;
+        border-radius: 5px;
+        border-style: solid;
+        background-color: rgba(60,60,60,0.7);
+        text-align: left;
+        box-shadow: 4px 4px 10px rgba(0,0,0,0.4);
+        pointer-events: none;
+    }
+
 </style>
 
 <div style="width: 50%;margin: 0 auto;padding-top: 20px;">
-    <h1>china map</h1>
+    <h1>china map (children number)</h1>
     <div id="container"></div>
 </div>
 
 <script type="text/javascript">
     const w = 700;
     const h = 500;
+
+    const tooltip = d3.select("body").append("div")
+        .attr("class","tooltip") // for style
+        .style("opacity",0.0);
 
     const svg = d3.select('div#container')
         .append('svg')
@@ -32,6 +55,7 @@
         top: 20,
         left: 20,
         bottom: 20,
+        right: 20,
     }
 
     const main = svg.append('g')
@@ -43,20 +67,98 @@
     const sqrt = Math.sqrt;
     const pi = Math.PI;
 
+    const start_color = '#fff';
+    const middle_color = '';//'#76c0ff';
+    const end_color = '#4169E1';
+    const legend = svg.append('g')
+                    .attr('transform', `translate(${margin.left/2}, ${h*0.7})`);
+
+    const defs = legend.append("defs");
+    function sprintf(text, arr) {
+        var i = 0;
+        return text.replace(/\$S/g, function() {
+            return (i < arr.length) ? arr[i++] : "";
+        });
+    }
+
+    var colorStops = [
+        '<stop offset= "0%" stop-color="$S" stop-opacity="1"></stop>',
+        '<stop offset= "50%" stop-color="$S" stop-opacity="1"></stop>',
+        '<stop offset= "100%" stop-color="$S" stop-opacity="1"></stop>'
+    ]
+
+    if(!middle_color) {
+        colorStops = colorStops[0] + colorStops[2];
+        colorStops = sprintf(colorStops, [start_color, end_color]);
+    } else {
+        colorStops = sprintf(colorStops.join(''), [start_color, middle_color, end_color]);
+    }
+
+    const linearGradient = defs.append("linearGradient")
+        .attr('id', 'gradient')
+        .attr('x1', '0%')
+        .attr('x2', '0%')
+        .attr('y1', '100%')
+        .attr('y2', '0%')
+        .html(colorStops);
+
+    const l = {
+        w: 20,
+        h: 120
+    }
+    const colorRect = legend.append("rect")
+        .attr("width", l.w)
+        .attr("height", l.h)
+        .attr("stroke", "#000")
+        .attr("stroke-width", 1)
+        .attr("fill", `url(#${linearGradient.attr("id")})`);
 
     d3.json('/public/data/china.json').then(data => {
+        const mw = w - margin.left - margin.right;
+        const mh = h - margin.top - margin.bottom;
 
-        const projection = d3.geoNaturalEarth1().fitSize([w, h], data);
+        const projection = d3
+            // .geoNaturalEarth1()
+            .geoMercator()
+            .fitSize([mw, mh], data);
+
         const path = d3.geoPath()
             .projection(projection);
 
-        // console.log(data.features);
+        const features = data.features;
+        const cnum = features.map(d => d.properties.childNum);
+        const extent = d3.extent(cnum);
+        const scale = d3.scaleLinear().domain(extent).range([start_color, end_color]);
+
+        // legend text
+        legend.append('text')
+            .text(extent[1])
+            .attr('transform', `translate(25, 10)`);
+
+        legend.append('text')
+            .text(extent[0])
+            .attr('transform', `translate(25, ${l.h})`);
+
         main.selectAll("path")
-            .data(data.features)
+            .data(features)
             .enter()
             .append("path")
             .attr("d", path)
-            .attr('stroke', '#000')
+            .style('stroke', '#000')
+            .style('fill', d => {
+                return scale(d.properties.childNum)
+            })
+            .on('mouseover', (event, d) => {
+                const item = d.properties;
+                tooltip
+                  .style("top", event.pageY - 5 + "px")
+                  .style("left", event.pageX + 5 + "px")
+                  .html(`name: ${item.name}<br/>childNum: ${item.childNum}`)
+                  .style('opacity', 1)
+            })
+            .on('mouseout', () => {
+                tooltip.style('opacity', 0);
+            });
 
     })
 
