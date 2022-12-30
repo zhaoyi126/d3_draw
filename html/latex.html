@@ -84,7 +84,7 @@ $('.equ').on('click', () => {
 
 function equ() {
     let txt = $('.editor').val();
-    txt = txt.replaceAll('\n', '\\\\');
+    txt = txt.replace(/\n/g, '\\\\');
     $('#content').html(`$${txt}$`);
 
     var mathId = document.getElementById("content");
